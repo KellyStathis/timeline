@@ -19,13 +19,14 @@
 			
 			div.tooltip {	
 				position: absolute;
-				background: #fff;
+				background: #cbeaea;
 				padding: 4px;
 				border-radius: 3px;
-				border: 1px solid #000;
+				border: 0px solid #000;
 				pointer-events: none;
 				font-family: sans-serif;
 				font-size: 11px;
+				
 			}
 			
 			        
@@ -40,10 +41,10 @@
 			
 			var height = 300;
 			var paddingLeft = 40;
-			var paddingRight = 80;
+			var paddingRight = 40;
 			var paddingBottom = 50;
-			var paddingTop = 150;
-			var firstEntryPadding = 20;
+			var paddingTop = 170;
+			var firstEntryPadding = 30;
 			var tip = d3.select('body')
 				.append('div')
 				.attr('class', 'tooltip')
@@ -81,7 +82,7 @@
 						svgs[i].remove();
 					}
 					
-					var width = window.outerWidth;
+					var width = window.innerWidth * 0.95;
 				
 					var svg = d3.select("body").append("svg")
 						.attr("width", width)
@@ -130,7 +131,7 @@
 						})
 						.on("mouseover", function(d) {
 							d3.select(this).style("fill", function() {
-								return d3.hsl("#00cc66");
+								return d3.hsl("#a2bbbb");
 							});
 							tip.transition()
 								.duration(200)
