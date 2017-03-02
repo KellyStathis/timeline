@@ -38,11 +38,10 @@
 	<body>
 		<script type="text/javascript">
 			
-			var height = 300;
 			var paddingLeft = 40;
 			var paddingRight = 80;
 			var paddingBottom = 50;
-			var paddingTop = 150;
+			var paddingTop = 10;
 			var firstEntryPadding = 20;
 			var tip = d3.select('body')
 				.append('div')
@@ -81,12 +80,14 @@
 						svgs[i].remove();
 					}
 					
-					var width = window.outerWidth;
+					var width = window.innerWidth;
+					var height = window.innerHeight;
 				
 					var svg = d3.select("body").append("svg")
 						.attr("width", width)
 						.attr("height", height);
 
+					/*	
 					var xScale = d3.scale.linear()
 						.domain([minDate, maxDate])
 						.range([paddingLeft, width - paddingRight]);
@@ -100,27 +101,41 @@
 						.tickValues(years)
 						.tickFormat(d3.format("d"))
 						.orient("bottom");
+					*/
+					var xScale = d3.scale.linear()
+						.domain([1, maxNumWithinYear])
+						.range([paddingLeft + firstEntryPadding, width/4 - paddingRight]);
+						
+					var yScale = d3.scale.linear()
+						.domain([minDate, maxDate])
+						.range([paddingTop, height - paddingBottom]);
+					
+					var yAxis = d3.svg.axis()
+						.scale(yScale)
+						.tickValues(years)
+						.tickFormat(d3.format("d"))
+						.orient("left");
 						
 					svg.append("g")
 						.attr("class", "axis")
-						.attr("transform", "translate(0," + (height - paddingBottom) + ")")
-						.call(xAxis)
+						.attr("transform", "translate(" + paddingLeft + ",0)")
+						.call(yAxis)
 						.selectAll("text")
 						.attr("y", 0)
-						.attr("x", 9)
-						.attr("dy", ".35em")
-						.attr("transform", "rotate(90)")
-						.style("text-anchor", "start");
+						.attr("x", -10)
+						.attr("dy", ".35em");
+						//.attr("transform", "rotate(90)")
+						//.style("text-anchor", "start");
 						
 					svg.selectAll("circle")
 						.data(dataset)
 						.enter()
 						.append("circle")
 						.attr("cx", function(d) {
-							return xScale(d.year);
+							return xScale(d.numWithinYear);
 						})
 						.attr("cy", function(d) {
-							return yScale(d.numWithinYear);
+							return yScale(d.year);
 						})
 						.attr("r", function() {
 							return 5;
